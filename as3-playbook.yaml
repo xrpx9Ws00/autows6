@@ -1,0 +1,23 @@
+---
+- name: Deploy ansible playbook
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+  vars_files:
+    - ../creds/bigip_creds.yaml
+  tasks:
+    - name: Deploy as3 application
+      ansible.builtin.uri:
+        url: https://20.0.58.197:8443/mgmt/shared/appsvcs/declare
+        user: "{{ bigip_username }}"
+        password: "{{ bigip_password }}"
+        method: POST
+        body: "{{ lookup('ansible.builtin.file','as3-declaration.json') }}"
+        force_basic_auth: true
+        status_code: 200
+        body_format: json
+        validate_certs: false
+      register: as3_output
+
+...
