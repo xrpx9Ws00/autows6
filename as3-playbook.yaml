@@ -19,5 +19,7 @@
         body_format: json
         validate_certs: false
       register: as3_output
-
+    - name: Debug output
+      debug:
+        var: as3_output
 ...
